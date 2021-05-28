@@ -1,0 +1,4 @@
+vendor
+composer.lock
+docker/logs
+docker/mysql

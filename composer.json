@@ -1,0 +1,25 @@
+{
+  "name": "vendor_name/parser",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Sergey Gonchar",
+      "email": "sgonchar67@mail.ru"
+    }
+  ],
+  "require": {
+    "doctrine/orm": "^2.6.2",
+    "symfony/yaml": "2.*",
+    "php-di/php-di": "^6.0",
+    "ext-pdo": "*",
+    "vlucas/phpdotenv": "^5.3",
+    "voku/simple_html_dom": "^4.7",
+    "guzzlehttp/guzzle": "^7.3",
+    "slim/slim": "^4.8"
+  },
+  "autoload": {
+    "psr-0": {"": "src/"}
+  }
+}
