@@ -45,7 +45,7 @@ class Log
     public function __construct($error = null)
     {
         $this->dt = new \DateTime();
-        $this->success = (bool) $error;
+        $this->success = !$error;
         $this->error = $error;
     }
 }

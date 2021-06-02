@@ -2,6 +2,7 @@
 
 namespace Repositories;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityManagerInterface;
 use Entities\Log;
 
@@ -23,8 +24,9 @@ class LogRepository extends AbstractRepository
     {
         $qb = $this->entityManager->createQueryBuilder()
             ->select('l')
-            ->where('dt > :dt')
-            ->setParameter('dt', $dt)
+            ->from(Log::class, 'l')
+            ->where('l.dt > :dt')
+            ->setParameter('dt', $dt, Types::DATETIME_MUTABLE)
         ;
 
         return $qb->getQuery()->getSingleResult();

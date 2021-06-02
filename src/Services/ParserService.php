@@ -6,6 +6,8 @@ use Entities\Agency;
 use Entities\Log;
 use Entities\Region;
 use GuzzleHttp\Client;
+use PHPHtmlParser\Dom;
+use PhpQuery\PhpQuery;
 use Repositories\AgencyRepository;
 use Repositories\LogRepository;
 use Repositories\RegionRepository;
@@ -36,8 +38,10 @@ class ParserService
      */
     public function parseRegions()
     {
-        $dom = HtmlDomParser::file_get_html(self::BASE_URI);
-        $elements = $dom->findMulti('[data-regionid]');
+        $dom = new Dom();
+        $dom->loadFromUrl(self::BASE_URI);
+
+        $elements = $dom->find('[data-regionid]');
         if(!$elements) {
             throw new \Exception('Region parse failed');
         }
@@ -103,6 +107,7 @@ class ParserService
         } catch (\Throwable $e) {
             $log = new Log($e->getMessage());
             $this->logRepository->persist($log);
+            $this->logRepository->flush();
         }
     }
 

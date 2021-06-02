@@ -13,7 +13,13 @@
     "sort-packages": true
   },
   "require": {
-    "ext-pdo": "*"
+    "ext-pdo": "*",
+    "doctrine/orm": "^2.9",
+    "guzzlehttp/guzzle": "^7.3",
+    "paquettg/php-html-parser": "^3.1",
+    "php-di/php-di": "^6.3",
+    "symfony/yaml": "^5.3",
+    "vlucas/phpdotenv": "^5.3"
   },
   "autoload": {
     "psr-0": {"": "src/"}
