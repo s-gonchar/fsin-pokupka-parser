@@ -9,11 +9,14 @@
       "email": "sgonchar67@mail.ru"
     }
   ],
-  "config": {
-    "sort-packages": true
-  },
   "require": {
-    "ext-pdo": "*"
+    "doctrine/orm": "^2.6.2",
+    "symfony/yaml": "2.*",
+    "php-di/php-di": "^6.0",
+    "ext-pdo": "*",
+    "vlucas/phpdotenv": "^5.3",
+    "voku/simple_html_dom": "^4.7",
+    "guzzlehttp/guzzle": "^7.3"
   },
   "autoload": {
     "psr-0": {"": "src/"}

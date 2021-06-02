@@ -1,27 +1,12 @@
 version: '3'
 services:
-    nginx:
-        image: nginx
-        ports:
-            - 80:80
-        # монтируем директории, слева директории на основной машине, справа - куда они монтируются в контейнере
-        volumes:
-            - ./hosts:/etc/nginx/conf.d
-            - ${PROJECT_ROOT}:/var/www/public
-            - ./logs:/var/log/nginx
-        links:
-            - php
-        depends_on:
-            - php
-        networks:
-            - internal
-
     php:
         build: images/php
         links:
-            - mysql
+            - postgres
         volumes:
             - ${PROJECT_ROOT}:/var/www
+            - ./images/php/php.ini:/usr/local/etc/php/conf.d/php.ini
             - ./images/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
         command: ["composer install", "vendor/bin/doctrine orm:schema-tool:create"]
         environment:
@@ -29,24 +14,18 @@ services:
             CONTAINER_UID: ${UID}
         networks:
             - internal
-    mysql:
-        image: mariadb
+    postgres:
+        image: postgres
         ports:
-            - "3306:3306"
+            - 5432:5432
         volumes:
-            - ./mysql:/var/lib/mysql
+            - ./postgres:/var/lib/postgres
         environment:
-            - MYSQL_DATABASE=${MYSQL_DATABASE}
-            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-            - MYSQL_USER=${MYSQL_USER}
-            - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+            - POSTGRES_DB=${DB_NAME}
+            - POSTGRES_USER=${DB_USER}
+            - POSTGRES_PASSWORD=${DB_PASSWORD}
         networks:
             - internal
-
 networks:
     internal:
         driver: bridge
-        ipam:
-            driver: default
-            config:
-                - subnet: 192.168.220.0/28

@@ -17,9 +17,9 @@ $cache = null;
 $useSimpleAnnotationReader = false;
 $config = Setup::createAnnotationMetadataConfiguration([__DIR__ . "/src"], $isDevMode, $proxyDir, $cache, $useSimpleAnnotationReader);
 
-$dbname = getenv('MYSQL_DATABASE');
-$username = getenv('MYSQL_USER');
-$password = getenv('MYSQL_PASSWORD');
+$dbname = getenv('DB_NAME');
+$username = getenv('DB_USER');
+$password = getenv('DB_PASSWORD');
 
 $connection = [
     'pdo' => new \PDO("mysql:host=mysql;dbname={$dbname}", $username, $password),
