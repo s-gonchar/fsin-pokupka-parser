@@ -27,8 +27,10 @@ class LogRepository extends AbstractRepository
             ->from(Log::class, 'l')
             ->where('l.dt > :dt')
             ->setParameter('dt', $dt, Types::DATETIME_MUTABLE)
+            ->setMaxResults(1)
         ;
 
-        return $qb->getQuery()->getSingleResult();
+        return $qb->getQuery()
+            ->getSingleResult();
     }
 }

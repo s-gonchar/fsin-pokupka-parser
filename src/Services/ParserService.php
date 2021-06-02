@@ -15,7 +15,7 @@ use voku\helper\HtmlDomParser;
 
 class ParserService
 {
-    private const BASE_URI = 'https://fsin-pokupka-parser.ru/';
+    private const BASE_URI = 'https://fsin-pokupka.ru/';
     private const STATUS_SUCCESS = 'SUCCESS';
     private Client $client;
     private LogRepository $logRepository;
@@ -63,21 +63,29 @@ class ParserService
      */
     public function parseAgenciesByRegion(Region $region)
     {
+        //Passing in the "body" request option as an array to send a request is not supported.
+        // Please use the "form_params" request option to send a application/x-www-form-urlencoded request,
+        // or the "multipart" request option to send a multipart/form-data request.
         $options = [
-            'ACTION' => 'SET_REGION',
-            'ELEMENT_ID' => $region->getExternalId(),
+            'form_params' => [
+                'ACTION' => 'SET_REGION',
+                'ELEMENT_ID' => $region->getExternalId(),
+            ],
         ];
         $response = $this->client->request(
             'POST',
             'local/components/litegroup/store.select/ajax.php',
             $options
         );
-        $responseData = json_decode($response->getBody());
+        $responseData = json_decode($response->getBody(), true);
         $status = $responseData['STATUS'] ?? null;
-        $items = $responseData['ELEMENT_LIST'] ?? null;
+        $items = $responseData['DATA']['ELEMENT_LIST'] ?? null;
         if($status != self::STATUS_SUCCESS || !$items) {
             $externalId = $region->getExternalId();
-            throw new \Exception("Agencies parse failed by region external id {$externalId}");
+            $description = $responseData['DESCRIPTION'] ?? null;
+            throw new \Exception(
+                "Agencies parse failed by region external id {$externalId} DESCRIPTION: {$description}"
+            );
         }
 
         foreach ($items as $item) {

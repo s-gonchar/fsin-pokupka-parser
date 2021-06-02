@@ -43,6 +43,7 @@ class Agency
         $self = new self();
         $self->name = $name;
         $self->externalId = $externalId;
+        $self->region = $region;
 
         return $self;
     }
