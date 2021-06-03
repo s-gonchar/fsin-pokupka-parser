@@ -124,9 +124,9 @@ class ParserService
             $this->parseRegions();
             foreach ($this->regionRepository->getAll() as $region) {
                 $this->parseAgenciesByRegion($region);
-                foreach ($this->agencyRepository->getAll() as $agency) {
-                    $this->parseProductsByAgency($agency);
-                }
+            }
+            foreach ($this->agencyRepository->getAll() as $agency) {
+                $this->parseProductsByAgency($agency);
             }
             $log = new Log();
         } catch (\Throwable $e) {
