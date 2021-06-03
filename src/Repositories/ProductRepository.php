@@ -12,4 +12,11 @@ class ProductRepository extends AbstractRepository
         parent::__construct($entityManager);
         $this->repo = $entityManager->getRepository(Product::class);
     }
+
+    public function findOneByExternalId(mixed $id): ?Product
+    {
+        /** @var Product|null $product */
+        $product = $this->repo->findOneBy(['externalId' => $id]);
+        return $product;
+    }
 }

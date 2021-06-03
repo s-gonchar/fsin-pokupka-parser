@@ -11,7 +11,6 @@ use JetBrains\PhpStorm\Pure;
  */
 class Agency
 {
-
     /**
      * @var int
      * @ORM\Id
@@ -51,5 +50,13 @@ class Agency
     public function getExternalId(): int
     {
         return $this->externalId;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
     }
 }

@@ -4,7 +4,6 @@ namespace Repositories;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Entities\Agency;
-use Entities\Region;
 
 class AgencyRepository extends AbstractRepository
 {
@@ -14,10 +13,25 @@ class AgencyRepository extends AbstractRepository
         $this->repo = $entityManager->getRepository(Agency::class);
     }
 
-    public function findOneByExternalId(mixed $id): ?Agency
+    public function findOneByExternalId($id): ?Agency
     {
         /** @var Agency|null $agency */
         $agency = $this->repo->findOneBy(['externalId' => $id]);
+        return $agency;
+    }
+
+    /**
+     * @param $id
+     * @return Agency
+     * @throws \Exception
+     */
+    public function getByExternalId($id): Agency
+    {
+        $agency = $this->findOneByExternalId($id);
+        if (!$agency) {
+            throw new \Exception("Agency with externalId {$id} not found");
+        }
+
         return $agency;
     }
 
