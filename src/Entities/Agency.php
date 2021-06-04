@@ -27,7 +27,7 @@ class Agency
 
     /**
      * @var int
-     * @ORM\Column(type="integer")
+     * @ORM\Column(name="external_id", type="integer")
      */
     private $externalId;
 
