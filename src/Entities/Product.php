@@ -87,4 +87,12 @@ class Product
         $this->balance = $balance;
         return $this;
     }
+
+    /**
+     * @return int
+     */
+    public function getExternalId(): int
+    {
+        return $this->externalId;
+    }
 }
