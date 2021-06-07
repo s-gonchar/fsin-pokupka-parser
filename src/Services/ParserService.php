@@ -4,7 +4,6 @@ namespace Services;
 
 use dto\ProductDto;
 use Entities\Agency;
-use Entities\Log;
 use Entities\Product;
 use Entities\Region;
 use GuzzleHttp\Client;
@@ -19,8 +18,6 @@ use Repositories\RegionRepository;
 
 class ParserService
 {
-    private const SITE_LOGIN = 'parser';
-    private const SITE_PASSWORD = 'fsin-pokupka.ru';
     private const BASE_URI = 'https://fsin-pokupka.ru';
     private const DOMAIN = 'fsin-pokupka.ru';
     private const STATUS_SUCCESS = 'SUCCESS';
@@ -169,7 +166,7 @@ class ParserService
         }
         $cookieJar = $this->applyOferta($agency);
 
-        $url = '/catalog/';
+        $url = '/catalog/?q=карты+связи';
         $html = $this->getHtmlContentByCookieAndUrls($cookieJar, [$url])[$url] ?? null;
         if ($html) {
             try {
@@ -184,7 +181,7 @@ class ParserService
 
             $urls = [];
             for ($page = 1; $page <= $lastPage; $page++) {
-                $urls[] = '/catalog/?PAGEN_1=' . $page;
+                $urls[] = '/catalog/?q=карты+связи&PAGEN_1=' . $page;
             }
 
             $htmlPages = $this->getHtmlContentByCookieAndUrls($cookieJar, $urls);
@@ -392,7 +389,7 @@ class ParserService
         $headers[] = 'Sec-Fetch-Mode: no-cors';
         $headers[] = 'Sec-Fetch-User: ?1';
         $headers[] = 'Sec-Fetch-Dest: image';
-        $headers[] = 'Referer: https://fsin-pokupka.ru/catalog/';
+        $headers[] = 'Referer: https://fsin-pokupka.ru/catalog/?q=карты+связи';
         $headers[] = 'Accept-Language: ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7';
         $headers[] = 'Origin: https://fsin-pokupka.ru';
         $headers[] = 'Pragma: no-cache';
