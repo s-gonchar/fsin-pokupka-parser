@@ -13,10 +13,13 @@ class ProductRepository extends AbstractRepository
         $this->repo = $entityManager->getRepository(Product::class);
     }
 
-    public function findOneByExternalId(mixed $id): ?Product
+    public function findOneByExternalIdAndAgencyExternalId($id, $externalAgencyId): ?Product
     {
         /** @var Product|null $product */
-        $product = $this->repo->findOneBy(['externalId' => $id]);
+        $product = $this->repo->findOneBy([
+            'externalId' => $id,
+            'agency' => $externalAgencyId,
+        ]);
         return $product;
     }
 }

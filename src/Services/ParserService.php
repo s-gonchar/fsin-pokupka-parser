@@ -313,7 +313,10 @@ class ParserService
             }
             $productDto = $productDtos[$href];
             $productDto->externalId = explode('_', $item->getAttribute('id'))[2];
-            $product = $this->productRepository->findOneByExternalId($productDto->externalId);
+            $product = $this->productRepository->findOneByExternalIdAndAgencyExternalId(
+                $productDto->externalId,
+                $productDto->externalAgencyId
+            );
             if (!$product) {
                 /** @var Dom\Node\HtmlNode[] $properties */
                 $properties = $item->find('.catalog-detail-property');
