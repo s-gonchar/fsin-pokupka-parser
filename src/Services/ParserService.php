@@ -19,6 +19,8 @@ use Repositories\RegionRepository;
 class ParserService
 {
     private const BASE_URI = 'https://fsin-pokupka.ru';
+    private const PART_URI_CATALOG = '/catalog/?q=карты+связи';
+//    private const PART_URI_CATALOG = '/catalog/karta/';
     private const DOMAIN = 'fsin-pokupka.ru';
     private const STATUS_SUCCESS = 'SUCCESS';
     private Client $client;
@@ -166,7 +168,7 @@ class ParserService
         }
         $cookieJar = $this->applyOferta($agency);
 
-        $url = '/catalog/?q=карты+связи';
+        $url = self::PART_URI_CATALOG;
         $html = $this->getHtmlContentByCookieAndUrls($cookieJar, [$url])[$url] ?? null;
         if ($html) {
             try {
@@ -181,7 +183,7 @@ class ParserService
 
             $urls = [];
             for ($page = 1; $page <= $lastPage; $page++) {
-                $urls[] = '/catalog/?q=карты+связи&PAGEN_1=' . $page;
+                $urls[] = self::PART_URI_CATALOG . '&PAGEN_1=' . $page;
             }
 
             $htmlPages = $this->getHtmlContentByCookieAndUrls($cookieJar, $urls);
@@ -245,7 +247,7 @@ class ParserService
         return CookieJar::fromArray($cookiesData, self::DOMAIN);
     }
 
-    private function getHtmlContentByCookieAndUrls(CookieJar $cookieJar, $urls = ['/catalog/']): array
+    private function getHtmlContentByCookieAndUrls(CookieJar $cookieJar, $urls = [self::PART_URI_CATALOG]): array
     {
 
         $mh = curl_multi_init();
@@ -392,7 +394,7 @@ class ParserService
         $headers[] = 'Sec-Fetch-Mode: no-cors';
         $headers[] = 'Sec-Fetch-User: ?1';
         $headers[] = 'Sec-Fetch-Dest: image';
-        $headers[] = 'Referer: https://fsin-pokupka.ru/catalog/?q=карты+связи';
+        $headers[] = 'Referer: ' . self::BASE_URI . self::PART_URI_CATALOG;
         $headers[] = 'Accept-Language: ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7';
         $headers[] = 'Origin: https://fsin-pokupka.ru';
         $headers[] = 'Pragma: no-cache';

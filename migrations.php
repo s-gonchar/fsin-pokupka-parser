@@ -10,7 +10,7 @@ return [
     ],
 
     'migrations_paths' => [
-        'WorkFace\Migrations' =>  './Migrations',
+        'Migrations' =>  './Migrations',
     ],
 
     'all_or_nothing' => false,

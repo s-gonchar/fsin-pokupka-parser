@@ -1,5 +1,7 @@
 <?php
 
+use Doctrine\DBAL\DriverManager;
+use Doctrine\DBAL\Platforms\PostgreSQL100Platform;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
@@ -24,9 +26,17 @@ $dbname = 'fsin_pokupka';
 $username = 'postgres';
 $password = 'secret';
 
-$connection = [
-    'pdo' => new \PDO("pgsql:host=postgres;port=5432;dbname={$dbname}", $username, $password),
-];
+$platform = new PostgreSQL100Platform();
+$options = array(
+    'dbname' => $dbname,
+    'user' => $username,
+    'password' => $password,
+    'host' => 'postgres',
+    'port' => 5432,
+    'driver' => 'pdo_pgsql',
+    'platform' => $platform,
+);
+$connection = DriverManager::getConnection($options);
 
 $container = App::getContainerInstence();
 $container->set(EntityManagerInterface::class, static function() use ($connection, $config) {
