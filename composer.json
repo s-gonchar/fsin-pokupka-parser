@@ -23,11 +23,6 @@
     "symfony/yaml": "^5.3",
     "vlucas/phpdotenv": "^5.3"
   },
-  "scripts": {
-    "post-install-cmd": [
-      "vendor/bin/doctrine-migrations migrations:migrate"
-    ]
-  },
   "autoload": {
     "psr-0": {"": "src/"},
     "Gedmo\\": "vendor/gedmo/doctrine-extensions/lib/"
