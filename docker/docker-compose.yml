@@ -2,6 +2,7 @@ version: '3'
 
 services:
     php:
+        tty: true
         build: images/php
         links:
             - postgres
@@ -9,12 +10,12 @@ services:
             - ${PROJECT_ROOT}:/var/www
             - ./images/php/php.ini:/usr/local/etc/php/conf.d/php.ini
             - ./images/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
-#        command: ["composer install", "vendor/bin/doctrine orm:schema-tool:create"]
+        command: [ "bash", "-c", "composer install"]
         environment:
             PHP_IDE_CONFIG: "serverName=Docker"
             CONTAINER_UID: ${UID}
         networks:
-            - internal
+            - internal_parser
 
     postgres:
         image: postgres
@@ -27,8 +28,8 @@ services:
             - POSTGRES_USER=${DB_USER}
             - POSTGRES_PASSWORD=${DB_PASSWORD}
         networks:
-            - internal
+            - internal_parser
 
 networks:
-    internal:
+    internal_parser:
         driver: bridge
