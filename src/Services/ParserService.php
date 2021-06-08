@@ -197,8 +197,9 @@ class ParserService
                     $titleNode = $itemNode->find('.item-title')[0];
                     /** @var Dom\Node\HtmlNode $quantityNode */
                     $quantityNode = $itemNode->find('.quantity-available')[0];
-
-                    $count = (int) preg_replace('/[^0-9]/', '', $quantityNode->innerText());
+                    preg_match('/\d+\s?шт/', $quantityNode->innerText(), $matches);
+                    $count = $matches[0] ?? '';
+                    $count = (int) preg_replace('/[^0-9]/', '', $count);
                     $productDto = new ProductDto();
                     $productDto->name = $titleNode->getAttribute('title');
                     $productDto->href = $titleNode->getAttribute('href');
@@ -315,9 +316,10 @@ class ParserService
             }
             $productDto = $productDtos[$href];
             $productDto->externalId = explode('_', $item->getAttribute('id'))[2];
-            $product = $this->productRepository->findOneByExternalIdAndAgencyExternalId(
+            $agency = $this->agencyRepository->getByExternalId($productDto->externalAgencyId);
+            $product = $this->productRepository->findOneByExternalIdAndAgency(
                 $productDto->externalId,
-                $productDto->externalAgencyId
+                $agency
             );
             if (!$product) {
                 /** @var Dom\Node\HtmlNode[] $properties */
@@ -343,7 +345,7 @@ class ParserService
                     $productDto->externalId,
                     $productDto->balance,
                     $productDto->vendor,
-                    $productDto->supplier
+                    $productDto->href
                 );
             }
 

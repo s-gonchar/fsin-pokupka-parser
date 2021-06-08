@@ -3,6 +3,7 @@
 namespace Repositories;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Entities\Agency;
 use Entities\Product;
 
 class ProductRepository extends AbstractRepository
@@ -13,12 +14,12 @@ class ProductRepository extends AbstractRepository
         $this->repo = $entityManager->getRepository(Product::class);
     }
 
-    public function findOneByExternalIdAndAgencyExternalId($id, $externalAgencyId): ?Product
+    public function findOneByExternalIdAndAgency($id, Agency $agency): ?Product
     {
         /** @var Product|null $product */
         $product = $this->repo->findOneBy([
             'externalId' => $id,
-            'agency' => $externalAgencyId,
+            'agency' => $agency,
         ]);
         return $product;
     }

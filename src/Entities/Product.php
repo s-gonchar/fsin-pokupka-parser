@@ -40,7 +40,7 @@ class Product
      * @var string
      * @ORM\Column(type="string", nullable=true)
      */
-    private $supplier;
+    private $link;
 
     /**
      * @var int
@@ -61,7 +61,7 @@ class Product
      * @param int $externalId
      * @param int $balance
      * @param string|null $vendor
-     * @param string|null $supplier
+     * @param string|null $link
      * @return Product
      */
     public static function create(
@@ -70,13 +70,13 @@ class Product
         int $externalId,
         int $balance,
         string $vendor = null,
-        string $supplier = null
+        string $link = null
     ): self {
         $product = new self();
         $product->name = $name;
         $product->externalId = $externalId;
         $product->vendor = $vendor;
-        $product->supplier = $supplier;
+        $product->link = $link;
         $product->balance = $balance;
         $product->agency = $agency;
         return $product;
