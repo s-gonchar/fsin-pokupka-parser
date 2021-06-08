@@ -10,7 +10,7 @@ services:
             - ${PROJECT_ROOT}:/var/www
             - ./images/php/php.ini:/usr/local/etc/php/conf.d/php.ini
             - ./images/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
-        command: [ "bash", "-c", "composer install"]
+        command: [ "bash", "-c", "composer install && vendor/bin/doctrine-migrations migrations:migrate --no-interaction --allow-no-migration"]
         environment:
             PHP_IDE_CONFIG: "serverName=Docker"
             CONTAINER_UID: ${UID}
